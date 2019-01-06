@@ -1,28 +1,55 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react"
+import "./App.css"
+import quoteData from "./QuoteData"
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+class App extends React.Component {
+    constructor() {
+        super()
+        this.state = {
+            quoteIndex: 0
+        }
+        this.handleClick = this.handleClick.bind(this)
+    }
+
+    handleClick() {
+        this.setState({
+            quoteIndex: Math.floor(Math.random() * 100)
+        })
+    }
+
+    render() {
+        const quote = quoteData[this.state.quoteIndex].quote
+        const author = quoteData[this.state.quoteIndex].name
+        const tweetQuote = "https://twitter.com/intent/tweet?text="+ quote + " - " + author;
+
+        return (
+            <main>
+                <div id="quote-box" className="well">
+                    <h3 id="text">{quote}</h3>
+                    <span id="author"> - {author}</span>
+                    <br />
+                    <button
+                        id="new-quote"
+                        type="button"
+                        className="btn btn-dark"
+                        onClick={this.handleClick}>New Quote
+                    </button>
+                    <button
+                        id="tweet"
+                        type="button"
+                        className="btn btn-primary">
+                        <a
+                            id="tweet-quote"
+                            href={tweetQuote}
+                            target='_blank'
+                            rel="noopener noreferrer"
+                        >Tweet
+                        </a>
+                    </button>
+                </div>
+            </main>
+        )
+    }
 }
 
-export default App;
+export default App
